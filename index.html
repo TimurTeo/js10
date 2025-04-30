@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тех ПК</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="shortcut icon" href="../../assets/img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+<section id="cart" class="cart_page">
+  <div class="container">
+    <h2>Корзина</h2>
+    <div class="cart_items">
+      <div class="cart_item">
+        <img src="img/product.jpg" alt="Товар 1">
+        <div class="cart_item_desc">
+          <h3>Название товара</h3>
+          <p>Описание товара кратко</p>
+          <div class="cart_price_qty">
+            <p class="price">5 000 ₽</p>
+            <div class="qty_controls">
+              <button>-</button>
+              <span>1</span>
+              <button>+</button>
+            </div>
+          </div>
+        </div>
+        <button class="remove_item">Удалить</button>
+      </div>
+
+      <!-- Копировать блок cart_item для других товаров -->
+    </div>
+
+    <div class="cart_total">
+      <h3>Итого: 15 000 ₽</h3>
+      <button>Оформить заказ</button>
+    </div>
+  </div>
+</section>
+
+<script>// Modal confirmation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get checkout button
+        const checkoutButton = document.querySelector('.cart_total button');
+        
+        // Create modal element
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3>Подтверждение заказа</h3>
+                <p>Вы точно хотите оформить заказ?</p>
+                <div class="modal-buttons">
+                    <button class="modal-confirm">Оформить</button>
+                    <button class="modal-cancel">Отмена</button>
+                </div>
+            </div>
+        `;
+        
+        // Add modal to the body
+        document.body.appendChild(modal);
+        
+        // Add event listener to checkout button
+        if (checkoutButton) {
+            checkoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const totalAmount = document.querySelector('.cart_total h3').textContent;
+                
+                // Store total amount in modal for later use
+                modal.dataset.totalAmount = totalAmount;
+                
+                // Show modal
+                modal.style.display = 'flex';
+            });
+        }
+        
+        // Close modal when clicking on cancel button
+        const cancelButton = modal.querySelector('.modal-cancel');
+        cancelButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        // Handle confirmation
+        const confirmButton = modal.querySelector('.modal-confirm');
+        confirmButton.addEventListener('click', function() {
+            const totalAmount = modal.dataset.totalAmount;
+            // Here you can add logic to process the order
+            modal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });</script>
+</body>
+
+</html>
